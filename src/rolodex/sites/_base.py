@@ -1,6 +1,5 @@
 import tomllib
 from abc import ABC, abstractmethod
-from itertools import chain
 from pathlib import Path
 from typing import Self
 
@@ -13,12 +12,8 @@ class User(BaseModel):
     note: str | None = None
 
 
-def css_comment(s, indent=0) -> str:
-    return f"{' ' * indent}/* {s} */"
-
-
-def css_rule(key: str, value: str, indent=0) -> str:
-    return f"{' ' * indent}{key}: {value};"
+def css_comment(s) -> str:
+    return f"/* {s} */"
 
 
 class BaseSiteConfig(BaseModel, ABC):
@@ -32,7 +27,7 @@ class BaseSiteConfig(BaseModel, ABC):
     def from_path(cls, path: Path) -> Self:
         return cls.model_validate(tomllib.loads(path.read_text()))
 
-    def css_block(self, user: User) -> list[str]:
+    def css_block(self, user: User) -> str:
         raise NotImplementedError
 
     def to_css(self) -> str:
@@ -47,6 +42,6 @@ class BaseSiteConfig(BaseModel, ABC):
             "",
         ]
 
-        lines.extend(chain.from_iterable(self.css_block(u) for u in self.users))
+        lines.extend(self.css_block(u) for u in self.users)
 
         return "\n".join(lines)
