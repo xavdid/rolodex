@@ -8,7 +8,7 @@ Currently supports:
 - Lobsters
 - Hacker News
 
-I wrote more about why this is
+I wrote more about why this is on my blog (TKTK).
 
 ## Usage
 

@@ -11,7 +11,7 @@ class TildesConfig(BaseSiteConfig):
         return "Tildes"
 
     def css_block(self, user: User) -> str:
-        lines_str = dedent(f"""\
+        lines = dedent(f"""\
             .comment-header > a.link-user[href$="/{user.username}"],
             .topic-info-source > a.link-user[href$="/{user.username}"],
             .topic-full-byline > a.link-user[href$="/{user.username}"] {{
@@ -19,7 +19,7 @@ class TildesConfig(BaseSiteConfig):
         """)
 
         if user.note:
-            lines_str += dedent(f"""
+            lines += dedent(f"""
                 /* needed to position the tooltip correctly */
                 position: relative;
 
@@ -50,6 +50,6 @@ class TildesConfig(BaseSiteConfig):
             }}
             """)
         else:
-            lines_str += "}\n"
+            lines += "}\n"
 
-        return lines_str
+        return lines

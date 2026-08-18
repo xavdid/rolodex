@@ -1,11 +1,26 @@
 [project]
 name = "rolodex"
-version = "0.1.0"
+version = "0.0.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [{ name = "David Brownman", email = "oss@xavd.id" }]
 requires-python = ">=3.12"
 dependencies = ["cyclopts ~= 4.22.5", "pydantic ~= 2.13.4"]
+license-files = ["LICENSE"]
+keywords = ["user-styles", "tildes", "lobsters", "css"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+Repository = "https://github.com/xavdid/rolodex"
+Issues = "https://github.com/xavdid/rolodex/issues"
+Changelog = "https://github.com/xavdid/rolodex/blob/main/CHANGELOG.md"
 
 [project.scripts]
 rolodex = "rolodex.cli:app"
@@ -15,7 +30,7 @@ requires = ["uv_build>=0.12.1,<0.13.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
-dev = ["pytest>=9.1.1", "ruff>=0.16.3"]
+dev = ["pytest>=9.1.1", "ruff>=0.16.3", "pyright>=1.1.409"]
 
 [tool.ruff.lint]
 extend-select = [
@@ -48,6 +63,7 @@ extend-ignore = [
     "PLR0913", # too many arguments
     "PLR0915", # too many statements
     "Q000",    # single quotes; handled by formatter
+    "RET503",  # requiring an explicit `return None` if that value is otherwise allowed
 ]
 
 unfixable = [

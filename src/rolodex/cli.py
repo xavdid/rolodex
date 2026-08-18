@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Annotated
 
 from cyclopts import App, Parameter, validators
+from pydantic import ValidationError
 
 from rolodex.sites._base import BaseSiteConfig
 from rolodex.sites.tildes import TildesConfig
@@ -27,8 +28,16 @@ OUT_FILE_ANNOTATION = Annotated[
 ]
 
 
-def _build(class_: type[BaseSiteConfig], src: Path, dest: Path):
-    config = class_.from_path(src)
+def _build(class_: type[BaseSiteConfig], src: Path, dest: Path) -> int | None:
+    """Helper for st
+
+    non-zero return value"""
+    try:
+        config = class_.from_path(src)
+    except ValidationError as e:
+        print(e)
+        return 1
+
     dest.write_text(config.to_css())
     print(f"Done! Wrote to {dest}")
 
@@ -41,7 +50,7 @@ def tildes(
     """
     Generate CSS for https://tildes.net.
     """
-    _build(TildesConfig, src, dest)
+    return _build(TildesConfig, src, dest)
 
 
 if __name__ == "__main__":
