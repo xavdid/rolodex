@@ -32,7 +32,6 @@ class TildesConfig(BaseSiteConfig):
                     top: 50%;
                     transform: translateY(-50%);
                     margin-left: 8px;
-                    position: absolute;
 
                     /* hover style */
                     background: #333;
