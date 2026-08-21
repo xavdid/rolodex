@@ -17,18 +17,18 @@ Coming soon:
 
 ## Installation
 
-You can install `rolodex` wherever you get your Python-based tools.
+You can install `rolodex` directly from GitHub (I'm still [waiting](https://github.com/pypi/support/issues/11929) to get the real name on PyPI).
 
 [uv](https://docs.astral.sh/uv/):
 
 ```shell
-uv tool install rolodex
+uv tool install git+https://github.com/xavdid/rolodex
 ```
 
 [mise](https://mise.jdx.dev/):
 
 ```shell
-mise use -g pipx:rolodex
+mise use -g pipx:xavdid/rolodex
 ```
 
 <!-- Using brew:

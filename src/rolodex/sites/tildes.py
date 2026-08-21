@@ -1,4 +1,5 @@
 from textwrap import dedent
+from typing import ClassVar
 
 from rolodex.sites._base import BaseSiteConfig, User
 
@@ -6,9 +7,9 @@ from rolodex.sites._base import BaseSiteConfig, User
 class TildesConfig(BaseSiteConfig):
     username_color: str = "#ff4500"
 
-    @property
-    def site_name(self) -> str:
-        return "Tildes"
+    site_name: ClassVar[str] = "Tildes"
+    filename: ClassVar[str] = "tildes"
+    url: ClassVar[str] = "https://tildes.net"
 
     def css_block(self, user: User) -> str:
         lines = dedent(f"""\
