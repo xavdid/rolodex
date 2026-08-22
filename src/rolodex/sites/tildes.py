@@ -12,9 +12,10 @@ class TildesConfig(BaseSiteConfig):
     url: ClassVar[str] = "https://tildes.net"
 
     def user_block(self, user: User) -> str:
+        user_link = f'a.link-user[href$="/{user.username}"]'
         return dedent(f"""\
-            .comment-header > a.link-user[href$="/{user.username}"],
-            .topic-info-source > a.link-user[href$="/{user.username}"],
-            .topic-full-byline > a.link-user[href$="/{user.username}"] {{
+            .comment-header > {user_link},
+            .topic-info-source > {user_link},
+            .topic-full-byline > {user_link} {{
                 color: {user.color or self.username_color};
         """)
