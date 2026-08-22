@@ -2,6 +2,7 @@ import tomllib
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from pathlib import Path
+from textwrap import dedent
 from typing import Annotated, ClassVar, Self, TypedDict
 
 from cyclopts import Parameter, validators
@@ -106,9 +107,58 @@ class BaseSiteConfig(BaseModel, ABC):
                 ),
                 css_comment("https://github.com/xavdid/rolodex"),
                 "",
-                *(self.css_block(u) for u in self.users),
+                *(self.full_user_block(u) for u in self.users),
             ]
         )
 
+    def full_user_block(self, user: User) -> str:
+        """
+        The entire CSS for a given user
+        """
+        lines = self.user_block(user)
+        if user.note:
+            lines += self.note_block(user.note)
+        else:
+            lines += "}\n"
+
+        return lines
+
+    @staticmethod
+    def note_block(note: str) -> str:
+        return dedent(f"""
+                /* needed to position the tooltip correctly */
+                position: relative;
+
+                &::after {{
+                    content: "{note}";
+                    /* positions to the right of the hover item */
+                    position: absolute;
+                    left: 100%;
+                    /* centers the tooltip vertically */
+                    top: 50%;
+                    transform: translateY(-50%);
+                    margin-left: 8px;
+
+                    /* hover style */
+                    background: #333;
+                    color: #fff;
+                    border: 1px solid #FFCB05;
+                    padding: 4px 8px;
+                    border-radius: 3px;
+                    /* hidden until hovered */
+                    visibility: hidden;
+                    white-space: nowrap;
+                }}
+
+                &:hover::after {{
+                    visibility: visible;
+                }}
+            }}
+            """)
+
     @abstractmethod
-    def css_block(self, user: User) -> str: ...
+    def user_block(self, user: User) -> str: ...
+
+    """
+    The site-specific highlighting code for a user
+    """
